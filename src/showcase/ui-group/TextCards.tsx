@@ -1,9 +1,5 @@
-import LabeledToggle from '@/showcase/components/toggle/LabeledToggle'
-import NeubrutalismToggle from '@/showcase/components/toggle/NeubrutalismToggle'
-import SimpleToggle from '@/showcase/components/toggle/SimpleToggle'
 import Link from 'next/link'
-import IconToggle from '@/showcase/components/toggle/IconToggle'
-import SlideToggle from '../components/toggle/SlideToggle'
+import { TextTicker } from '../components/text/text-ticker/TextTicker'
 
 interface ToggleCardProps {
   title: string
@@ -13,33 +9,13 @@ interface ToggleCardProps {
 }
 const data: ToggleCardProps[] = [
   {
-    title: 'Simple Toggle',
-    link: '/components/toggle/simple-toggle',
-    component: <SimpleToggle />,
-  },
-  {
-    title: 'Neubrutalism Toggle',
-    link: '/components/toggle/neubrutalism-toggle',
-    component: <NeubrutalismToggle />,
-  },
-  {
-    title: 'Labeled Toggle',
-    link: '/components/toggle/labeled-toggle',
-    component: <LabeledToggle />,
-  },
-  {
-    title: 'Icon Toggle',
-    link: '/components/toggle/icon-toggle',
-    component: <IconToggle />,
-  },
-  {
-    title: 'Slide Toggle',
-    link: '/components/toggle/slide-toggle',
-    component: <SlideToggle />,
+    title: 'Text Ticker',
+    link: '/components/text/text-ticker',
+    component: <TextTicker />,
   },
 ]
 
-const ButtonCards = () => {
+const ToggleCards = () => {
   return (
     <div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -60,4 +36,4 @@ const ButtonCards = () => {
   )
 }
 
-export default ButtonCards
+export default ToggleCards

@@ -16,31 +16,13 @@ interface NavGroup {
   links: Array<{
     title: string
     href: string
+    tag?: string
   }>
 }
 
 function useInitialValue<T>(value: T, condition = true) {
   let initialValue = useRef(value).current
   return condition ? initialValue : value
-}
-
-function TopLevelNavItem({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <li className="md:hidden">
-      <Link
-        href={href}
-        className="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-      >
-        {children}
-      </Link>
-    </li>
-  )
 }
 
 function NavLink({
@@ -64,16 +46,12 @@ function NavLink({
         'flex justify-between gap-2 py-1 pr-3 text-sm transition',
         isAnchorLink ? 'pl-7' : 'pl-4',
         active
-          ? 'text-zinc-900 dark:text-white'
-          : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white',
+          ? 'text-gray-900 dark:text-white'
+          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
       )}
     >
       <span className="truncate">{children}</span>
-      {tag && (
-        <Tag variant="small" color="zinc">
-          {tag}
-        </Tag>
-      )}
+      {tag && <Tag>{tag}</Tag>}
     </Link>
   )
 }
@@ -149,9 +127,11 @@ function ActivePageMarker({
 function NavigationGroup({
   group,
   className,
+  tag,
 }: {
   group: NavGroup
   className?: string
+  tag?: string
 }) {
   // If this is the mobile navigation then we always render the initial
   // state, so that the state does not change during the close animation.
@@ -191,7 +171,11 @@ function NavigationGroup({
         <ul role="list" className="border-l border-transparent">
           {group.links.map((link) => (
             <motion.li key={link.href} layout="position" className="relative">
-              <NavLink href={link.href} active={link.href === pathname}>
+              <NavLink
+                href={link.href}
+                active={link.href === pathname}
+                tag={link.tag}
+              >
                 {link.title}
               </NavLink>
               <AnimatePresence mode="popLayout" initial={false}>
@@ -241,11 +225,12 @@ export const navigation: Array<NavGroup> = [
       {
         title: 'Button',
         href: '/components/button',
+        tag: 'new',
       },
-      // { title: 'Breadcrumb', href: '/components/breadcrumb' },
       {
         title: 'Features',
         href: '/components/features',
+        tag: 'New',
       },
       {
         title: 'Footer',
@@ -262,6 +247,7 @@ export const navigation: Array<NavGroup> = [
       {
         title: 'Logo Cloud',
         href: '/components/logo-cloud',
+        tag: 'new',
       },
       {
         title: 'Pricing',
@@ -300,32 +286,17 @@ export const navigation: Array<NavGroup> = [
       {
         title: 'Gradients',
         href: '/effects/gradients',
+        tag: 'new',
       },
       { title: 'Image Fade', href: '/effects/image-fade' },
     ],
   },
-  // {
-  //   title: 'Hooks',
-  //   links: [
-  //     {
-  //       title: 'useVisible()',
-  //       href: '/hooks/useVisible',
-  //     },
-  //     {
-  //       title: 'useMediaSizes()',
-  //       href: '/hooks/useMediaSizes',
-  //     },
-  //   ],
-  // },
 ]
 
 export function Navigation(props: React.ComponentPropsWithoutRef<'nav'>) {
   return (
     <nav {...props}>
       <ul role="list">
-        {/* <TopLevelNavItem href="/">API</TopLevelNavItem>
-        <TopLevelNavItem href="#">Documentation</TopLevelNavItem>
-        <TopLevelNavItem href="#">Support</TopLevelNavItem> */}
         {navigation.map((group, groupIndex) => (
           <NavigationGroup
             key={group.title}
